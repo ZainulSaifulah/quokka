@@ -62,6 +62,25 @@
                     @endif
                 </div>
                 <div class="input-group mb-3">
+                    {{-- <input type="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}"
+                           placeholder="{{ __('adminlte::adminlte.email') }}"> --}}
+                    <select name="role" class="form-control {{ $errors->has('role') ? 'is-invalid' : '' }}">
+                        <option value="" disabled selected>Role</option>
+                        <option value="lecturer">Lecturer</option>
+                        <option value="student">Student</option>
+                    </select>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-key"></span>
+                        </div>
+                    </div>
+                    @if ($errors->has('email'))
+                        <div class="invalid-feedback">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </div>
+                    @endif
+                </div>
+                <div class="input-group mb-3">
                     <input type="password" name="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                            placeholder="{{ __('adminlte::adminlte.password') }}">
                     <div class="input-group-append">
