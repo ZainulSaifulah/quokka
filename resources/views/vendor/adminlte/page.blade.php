@@ -60,7 +60,7 @@
                 @if(config('adminlte.logo_img_xl'))
                     <a href="{{ $dashboard_url }}" class="navbar-brand logo-switch">
                         <img src="{{ asset(config('adminlte.logo_img', 'vendor/adminlte/dist/img/AdminLTELogo.png')) }}" alt="{{config('adminlte.logo_img_alt', 'AdminLTE')}}" class="{{config('adminlte.logo_img_class', 'brand-image-xl')}} logo-xs">
-                        <img src="{{ asset(config('adminlte.logo_img_xl')) }}" alt="{{config('adminlte.logo_img_alt', 'AdminLTE')}}" class="{{config('adminlte.logo_img_xl_class', 'brand-image-xs')}} logo-xl">
+                        <img src="{{ asset(config('adminlte.logo_img_xl')) }}" alt="{{config('adminlte.logo_img_alt', 'AdminLTE')}}" class="{{config('adminlte.logo_img_xl_class', 'brand-image-xs')}} logo-xl" style="">
                     </a>
                 @else
                     <a href="{{ $dashboard_url }}" class="navbar-brand {{ config('adminlte.classes_brand') }}">
@@ -96,18 +96,21 @@
                 <ul class="navbar-nav ml-auto @if(config('adminlte.layout_topnav') || View::getSection('layout_topnav'))order-1 order-md-3 navbar-no-expand @endif">
                     @yield('content_top_nav_right')
                     @if(Auth::user())
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                            >
-                                <i class="fa fa-fw fa-power-off"></i> {{ __('adminlte::adminlte.log_out') }}
-                            </a>
-                            <form id="logout-form" action="{{ $logout_url }}" method="POST" style="display: none;">
-                                @if(config('adminlte.logout_method'))
-                                    {{ method_field(config('adminlte.logout_method')) }}
-                                @endif
-                                {{ csrf_field() }}
-                            </form>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle fa-fw" aria-hidden="true"></i> {{ Auth::user()->name }}</a>
+                            <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                             >
+                                 <i class="fa fa-power-off"></i> {{ __('adminlte::adminlte.log_out') }}
+                             </a>
+                             <form id="logout-form" action="{{ $logout_url }}" method="POST" style="display: none;">
+                                 @if(config('adminlte.logout_method'))
+                                     {{ method_field(config('adminlte.logout_method')) }}
+                                 @endif
+                                 {{ csrf_field() }}
+                             </form>
+                            </div>
                         </li>
                     @endif
                     @if(config('adminlte.right_sidebar'))
@@ -125,7 +128,7 @@
         @if(!config('adminlte.layout_topnav') && !View::getSection('layout_topnav'))
         <aside class="main-sidebar {{config('adminlte.classes_sidebar', 'sidebar-dark-primary elevation-4')}}">
             @if(config('adminlte.logo_img_xl'))
-                <a href="{{ $dashboard_url }}" class="brand-link logo-switch">
+                <a href="{{ $dashboard_url }}" class="brand-link logo-switch navbar-light">
                     <img src="{{ asset(config('adminlte.logo_img', 'vendor/adminlte/dist/img/AdminLTELogo.png')) }}" alt="{{config('adminlte.logo_img_alt', 'AdminLTE')}}" class="{{config('adminlte.logo_img_class', 'brand-image-xl')}} logo-xs">
                     <img src="{{ asset(config('adminlte.logo_img_xl')) }}" alt="{{config('adminlte.logo_img_alt', 'AdminLTE')}}" class="{{config('adminlte.logo_img_xl_class', 'brand-image-xs')}} logo-xl">
                 </a>
