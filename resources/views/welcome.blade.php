@@ -49,7 +49,17 @@
                 @if (Route::has('login'))
                     <div class="top-right links">
                         @auth
-
+                            <a href="#"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            >
+                                {{ __('adminlte::adminlte.log_out') }}
+                            </a>
+                            <form id="logout-form" action="logout" method="POST" style="display: none;">
+                                @if(config('adminlte.logout_method'))
+                                    {{ method_field(config('adminlte.logout_method')) }}
+                                @endif
+                                {{ csrf_field() }}
+                            </form>
                         @else
                             <a href="{{ route('login') }}">Login</a>
 
