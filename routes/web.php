@@ -17,6 +17,12 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', function() {
-    return view('home');
-})->name('home')->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/home', function(){
+        return view('home');
+    });
+    Route::resource('/classrooms', 'ClassroomController');
+    Route::post('/classrooms/join', 'ClassroomController@join');
+    Route::post('/classrooms/quit', 'ClassroomController@quit');
+
+});
