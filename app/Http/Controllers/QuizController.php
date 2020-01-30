@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Quiz;
+use App\UserClass;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
@@ -13,7 +16,11 @@ class QuizController extends Controller
      */
     public function index()
     {
-        return view('quiz.index');
+        $userClasses = UserClass::where('user_id', Auth::user()->id)->get()->pluck('class_id');
+
+        return view('quiz.index', [
+            'quizzes' => Quiz::whereIn('class_id', $userClasses)->get()
+        ]);
     }
 
     /**

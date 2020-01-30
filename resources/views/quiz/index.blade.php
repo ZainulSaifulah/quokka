@@ -9,5 +9,19 @@
 @stop
 
 @section('content')
-
+    @foreach ($quizzes as $quiz)
+        <div class="card">
+            <div class="card-header">
+                <h3>{{$quiz->name}}</h3>
+                <h4>Start : {{$quiz->start_date}}| End : {{$quiz->end_date}} | Duration : {{$quiz->duration}}</h4>
+                @if ($quiz->userQuizResults->contains('user_id', Auth::user()->id ))
+                    <h4>Status : Finish</h4>
+                @elseif (now() > $quiz->end_date)
+                    <h4>Status : Closed</h4>
+                @else
+                    <h4>Status : Available</h4>
+                @endif
+            </div>
+        </div>
+    @endforeach
 @stop
