@@ -11,4 +11,8 @@ class UserClass extends Model
     public function class(){
         return $this->belongsTo('App\Classroom');
     }
+
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 }

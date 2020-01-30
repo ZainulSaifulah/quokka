@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classroom;
+use App\Quiz;
 use App\UserClass;
 use Illuminate\Http\Request;
 use Auth;
@@ -67,7 +68,9 @@ class ClassroomController extends Controller
 
         if($userClasses->contains('user_id', Auth::user()->id)){
             return view('classroom.show', [
-                'class' => Classroom::find($id)
+                'class' => Classroom::find($id),
+                'quizzess' => Quiz::where('class_id', $id)->get(),
+                'members' => UserClass::where('class_id', $id)->get()
             ]);
         }else{
             abort(403, 'Unauthorized action');
