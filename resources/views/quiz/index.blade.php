@@ -21,6 +21,7 @@
                 @else
                     <h4>Status : Available</h4>
                 @endif
+                <a href="" class="btn btn-primary stretched-link">Detail</a>
             </div>
         </div>
     @endforeach

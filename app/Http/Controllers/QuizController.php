@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Quiz;
+use App\QuizOption;
+use App\QuizQuestion;
 use App\UserClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +32,9 @@ class QuizController extends Controller
      */
     public function create()
     {
-        //
+        return view('quiz/create', [
+            'userClasses' => UserClass::where('user_id', Auth::user()->id)->get()
+        ]);
     }
 
     /**
@@ -41,7 +45,33 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $quiz = Quiz::create([
+            'class_id' => $request->class,
+            'name' => $request->name,
+            'start_date' => $request->start_time,
+            'end_date' => $request->end_time,
+            'duration' => $request->duration,
+            'question_total' => count($request->questions)
+        ]);
+
+        for($index = 0; $index < count($request->questions); $index++){
+            $answer = (0 * $index) + $request->answers[$index];
+
+            $quizQuestion =  QuizQuestion::create([
+                'quiz_id' => $quiz->id,
+                'question' => $request->questions[$index],
+                'answer' => $request->options[$answer],
+            ]);
+
+            for($option = $index * 4; $option < ($index + 1) * 4 ; $option++){
+                $quizOption = QuizOption::create([
+                    'quiz_question_id' => $quizQuestion->id,
+                    'option' => $request->options[$option]
+                ]);
+            }
+        }
+
+        return redirect('/classrooms/' + $request->class);
     }
 
     /**

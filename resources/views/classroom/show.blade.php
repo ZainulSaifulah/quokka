@@ -11,10 +11,29 @@
     <button class="tablinks" onclick="openCity(event, 'Member')">Member</button>
     </div>
 
-    <!-- Tab content -->
+
     <div id="Quiz" class="tabcontent">
+        @if (Auth::user()->role == 'lecturer')
+            <a href="/quizzes/create" class="btn btn-primary">
+                Create Quiz
+            </a>
+        @endif
+
         @foreach ($quizzess as $quiz)
-            <a href="">{{$quiz->name}}</a>
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h4>{{$quiz->name}}</h4>
+                    <h4>Start : {{$quiz->start_date}}| End : {{$quiz->end_date}} | Duration : {{$quiz->duration}}</h4>
+                    @if ($quiz->userQuizResults->contains('user_id', Auth::user()->id ))
+                        <h4>Status : Finish</h4>
+                    @elseif (now() > $quiz->end_date)
+                        <h4>Status : Closed</h4>
+                    @else
+                        <h4>Status : Available</h4>
+                    @endif
+                    <a href="" class="btn btn-primary stretched-link">Detail</a>
+                </div>
+            </div>
         @endforeach
     </div>
 
@@ -118,7 +137,7 @@
         /* Style the tab content */
         .tabcontent {
             display: none;
-            padding: 6px 12px;
+            padding-top: 6px;
             /* border: 1px solid #ccc; */
             /* border-top: none; */
         }
