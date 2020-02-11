@@ -23,7 +23,7 @@
 
 @section('content')
 
-    @foreach ($userClasses->chunk(4) as $chunk)
+    @foreach ($userClasses->chunk(3) as $chunk)
         <div class="row">
             @foreach ($chunk as $userClass)
                 <div class="col-4">
