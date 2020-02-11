@@ -25,4 +25,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/classrooms/join', 'ClassroomController@join');
     Route::post('/classrooms/quit', 'ClassroomController@quit');
     Route::resource('/quizzes', 'QuizController');
+    Route::get('/quizzes/test/{id}', 'QuizController@test');
+    Route::post('/quizzes/submit', 'QuizController@submitQuiz');
 });

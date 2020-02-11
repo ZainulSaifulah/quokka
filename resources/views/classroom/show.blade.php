@@ -31,7 +31,10 @@
                     @else
                         <h4>Status : Available</h4>
                     @endif
-                    <a href="" class="btn btn-primary stretched-link">Detail</a>
+                    <a href="/quizzes/{{$quiz->id}}" class="btn btn-primary">Detail</a>
+                    @if (Auth::user()->role == 'lecturer')
+                        <button class="btn btn-danger" id="delete-quiz" data-id="{{$quiz->id}}" data-toggle="modal" data-target="#delete-modal">Delete</button>
+                    @endif
                 </div>
             </div>
         @endforeach
@@ -51,57 +54,29 @@
         @endfor
     </div>
 
-    <div class="modal fade" id="join-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Join Class <i class="fas fa-parking-circle-slash"></i></h5>
+              <h5 class="modal-title" id="exampleModalLongTitle">Confirmation <i class="fas fa-parking-circle-slash"></i></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="classrooms/join" method="POST">
+            <form id="delete_form" action="" method="POST">
               @csrf
+              @method('DELETE')
               <div class="modal-body">
-                <div class="form-group">
-                    <label for="code">Class Code</label>
-                    <input type="text" class="form-control" name="code" placeholder="Class Code">
-                </div>
+                  <b>Are you sure to delete this quiz ?</b>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary"">Join</button>
+                  <button type="submit" class="btn btn-primary"">Yes</button>
               </div>
             </form>
           </div>
         </div>
-      </div>
-
-      <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Create Class <i class="fas fa-parking-circle-slash"></i></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="classrooms" method="POST">
-              @csrf
-              <div class="modal-body">
-                <div class="form-group">
-                    <label for="name">Class Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="Class Name">
-                </div>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary"">Create</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+    </div>
 @stop
 
 @section('css')
@@ -170,5 +145,12 @@
             // Get the element with id="defaultOpen" and click on it
             document.getElementById("defaultOpen").click();
         })
+    </script>
+
+    <script>
+        $('#delete-quiz').click(function(){
+          id = $(this).attr('data-id')
+          $('#delete_form').attr('action' , '/quizzes/'+id);
+        });
     </script>
 @endsection
